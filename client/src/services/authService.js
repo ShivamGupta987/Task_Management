@@ -11,8 +11,9 @@ export const authService = {
         password,
       })
 
+      // ✅ ✅ YAHAN FIX HAI
       if (response.data.success) {
-        const { token, user } = response.data.data
+        const { token, user } = response.data   
         setToken(token)
         setUser(user)
         return { success: true, user }

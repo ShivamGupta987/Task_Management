@@ -25,5 +25,31 @@ export const taskService = {
     return axiosInstance.get(`/tasks/${taskId}/logs`)
   },
 }
+// ✅ Save token
+export const setToken = (token) => {
+  localStorage.setItem("token", token);
+};
+
+// ✅ Get token  (⚠️ YE MISSING THA)
+export const getToken = () => {
+  return localStorage.getItem("token");
+};
+
+// ✅ Save user
+export const setUser = (user) => {
+  localStorage.setItem("user", JSON.stringify(user));
+};
+
+// ✅ Get user
+export const getUser = () => {
+  const user = localStorage.getItem("user");
+  return user ? JSON.parse(user) : null;
+};
+
+// ✅ Logout
+export const logout = () => {
+  localStorage.removeItem("token");
+  localStorage.removeItem("user");
+};
 
 export default taskService
