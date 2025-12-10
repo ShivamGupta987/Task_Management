@@ -1,41 +1,40 @@
-"use client"
-
-import { useState } from "react"
-import aiService from "../services/aiService"
+import { useState } from "react";
+import aiService from "../services/aiService";
 
 export default function AiSuggestPanel() {
-  const [description, setDescription] = useState("")
-  const [suggestions, setSuggestions] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
-  const [selectedSuggestion, setSelectedSuggestion] = useState(null)
+  const [description, setDescription] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [selectedSuggestion, setSelectedSuggestion] = useState(null);
 
   const handleSuggest = async () => {
     if (!description.trim()) {
-      setError("Please enter a task description")
-      return
+      setError("Please enter a task description");
+      return;
     }
 
-    setError("")
-    setLoading(true)
-    setSuggestions([])
+    setError("");
+    setLoading(true);
+    setSuggestions([]);
 
     try {
-      const result = await aiService.suggestTitle(description)
-      setSuggestions(result.data.suggestions || [])
-      setSelectedSuggestion(null)
+      const suggestions = await aiService.suggestTitle(description);
+      setSuggestions(suggestions);
+
+      setSelectedSuggestion(null);
     } catch (err) {
-      setError(err.message || "Failed to generate suggestions")
+      setError(err.message || "Failed to generate suggestions");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleCopy = (suggestion) => {
-    navigator.clipboard.writeText(suggestion)
-    setSelectedSuggestion(suggestion)
-    setTimeout(() => setSelectedSuggestion(null), 2000)
-  }
+    navigator.clipboard.writeText(suggestion);
+    setSelectedSuggestion(suggestion);
+    setTimeout(() => setSelectedSuggestion(null), 2000);
+  };
 
   return (
     <div className="bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-lg p-6">
@@ -50,7 +49,9 @@ export default function AiSuggestPanel() {
 
       <div className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">Describe Your Task</label>
+          <label className="block text-sm font-medium text-slate-300 mb-2">
+            Describe Your Task
+          </label>
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -61,7 +62,9 @@ export default function AiSuggestPanel() {
         </div>
 
         {error && (
-          <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded-lg text-sm">{error}</div>
+          <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded-lg text-sm">
+            {error}
+          </div>
         )}
 
         <button
@@ -74,7 +77,9 @@ export default function AiSuggestPanel() {
 
         {suggestions.length > 0 && (
           <div className="mt-4">
-            <h3 className="text-sm font-semibold text-slate-300 mb-3">Suggested Titles:</h3>
+            <h3 className="text-sm font-semibold text-slate-300 mb-3">
+              Suggested Titles:
+            </h3>
             <div className="space-y-2">
               {suggestions.map((suggestion, index) => (
                 <div
@@ -87,11 +92,13 @@ export default function AiSuggestPanel() {
                   onClick={() => handleCopy(suggestion)}
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <p className="text-slate-100 text-sm font-medium flex-1">{suggestion}</p>
+                    <p className="text-slate-100 text-sm font-medium flex-1">
+                      {suggestion}
+                    </p>
                     <button
                       onClick={(e) => {
-                        e.stopPropagation()
-                        handleCopy(suggestion)
+                        e.stopPropagation();
+                        handleCopy(suggestion);
                       }}
                       className="px-2 py-1 text-xs bg-slate-600 hover:bg-slate-500 text-slate-100 rounded transition whitespace-nowrap"
                     >
@@ -115,5 +122,5 @@ export default function AiSuggestPanel() {
         </div>
       </div>
     </div>
-  )
+  );
 }
