@@ -71,63 +71,60 @@ export const getTaskById = asyncHandler(async (req, res) => {
 })
 
 // Update task
+// Update task
 export const updateTask = asyncHandler(async (req, res) => {
-  let task = await Task.findById(req.params.id)
+  let task = await Task.findById(req.params.id);
 
   if (!task) {
     return res.status(404).json({
       success: false,
       error: "Task not found",
-    })
+    });
   }
 
-  const oldStatus = task.status
-  const { status } = req.body
+  const oldValue = { ...task.toObject() };
+  const oldStatus = task.status;
+  const { status } = req.body;
 
-  // Enforce status workflow: Pending → In Progress → Completed
+  // ✅ Allow ANY status change (Pending, In Progress, Completed)
   if (status) {
-    const statusFlow = {
-      Pending: ["In Progress"],
-      "In Progress": ["Completed"],
-      Completed: [],
-    }
-
-    if (!statusFlow[oldStatus].includes(status)) {
+    const validStatuses = ["Pending", "In Progress", "Completed"];
+    if (!validStatuses.includes(status)) {
       return res.status(400).json({
         success: false,
-        error: `Cannot change status from ${oldStatus} to ${status}`,
-      })
+        error: "Invalid status value",
+      });
     }
   }
 
-  const oldValue = { ...task.toObject() }
+  // ✅ Update task
   task = await Task.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
-  })
+  });
 
-  // Log activity
+  // ✅ Log activity (status change OR normal edit)
   if (status && status !== oldStatus) {
     await ActivityLog.create({
       taskId: task._id,
       action: "Status Changed",
       oldStatus,
       newStatus: status,
-    })
-  } else if (Object.keys(req.body).length > 0) {
+    });
+  } else {
     await ActivityLog.create({
       taskId: task._id,
       action: "Updated",
       oldValue,
       newValue: task.toObject(),
-    })
+    });
   }
 
   res.status(200).json({
     success: true,
     data: task,
-  })
-})
+  });
+});
 
 // Delete task
 export const deleteTask = asyncHandler(async (req, res) => {

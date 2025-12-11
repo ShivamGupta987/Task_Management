@@ -24,17 +24,17 @@ export default function ActivityLogPanel({ taskId }) {
   }
 
   return (
-    <div className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-lg p-4 h-full">
-      <h3 className="text-lg font-bold text-slate-100 mb-4">Activity Log</h3>
+    <div className="h-full p-4 border rounded-lg bg-slate-800/50 backdrop-blur border-slate-700">
+      <h3 className="mb-4 text-lg font-bold text-slate-100">Activity Log</h3>
 
       {loading ? (
-        <div className="text-slate-400 text-sm">Loading...</div>
+        <div className="text-sm text-slate-400">Loading...</div>
       ) : logs.length === 0 ? (
-        <div className="text-slate-400 text-sm">No activities yet</div>
+        <div className="text-sm text-slate-400">No activities yet</div>
       ) : (
-        <div className="space-y-3 max-h-96 overflow-y-auto">
+        <div className="space-y-3 overflow-y-auto max-h-96">
           {logs.map((log) => (
-            <div key={log._id} className="border-l-2 border-blue-500 pl-3 py-2">
+            <div key={log._id} className="py-2 pl-3 border-l-2 border-blue-500">
               <p className="text-sm font-semibold text-slate-200">{log.action}</p>
               {log.oldStatus && log.newStatus && (
                 <p className="text-xs text-slate-400">
