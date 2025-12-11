@@ -89,6 +89,167 @@ Frontend interacts **directly** with the Lambda microservice.
 
 ---
 
+🧠 Problem-Solving Approach
+
+This project required integrating multiple systems — a frontend (React), backend (Node/Express), AI model (Gemini), and a microservice (AWS Lambda).
+My approach focused on breaking the project into independent modules, solving each layer cleanly, and ensuring smooth cross-communication.
+
+1️⃣ Understanding Requirements & Breaking Down the System
+
+I divided the assignment into 5 core components:
+
+Task CRUD Module
+
+Task Status Workflow
+
+Activity Logging
+
+AI Suggestion System (Gemini)
+
+AWS Lambda Authentication Microservice
+
+This helped ensure each feature had a clear responsibility and could be built + tested independently.
+
+2️⃣ Designing a Clean Folder Structure (Scalable Architecture)
+
+To avoid code mixing and future technical debt, I separated concerns into:
+
+client → UI, pages, services, axios instance
+
+server → controllers, routes, models
+
+lambda → independent login microservice
+
+This structure follows industry standards and makes debugging easier.
+
+3️⃣ Solving the Task Workflow Logic
+
+The status update rules caused errors initially.
+I created a strict workflow rule-set:
+
+Pending → In Progress → Completed
+
+
+Then added validation inside the update controller to prevent invalid transitions.
+This eliminated inconsistent task states.
+
+4️⃣ Handling AI Integration Issues (Gemini API Change)
+
+The first approach failed because:
+
+Old gemini-pro endpoint returned no candidates
+
+The API format had changed
+
+Solution:
+
+✔ Switched to Google Generative AI SDK
+✔ Used latest model gemini-2.5-flash
+✔ Rewrote parser for new response structure
+
+This fixed AI output issues completely.
+
+5️⃣ Solving AWS Lambda CORS Errors
+
+Frontend → Lambda calls were blocked due to missing CORS headers.
+
+Error seen:
+
+Access to fetch has been blocked by CORS policy
+
+
+To fix:
+
+✔ Added OPTIONS handler
+✔ Added Access-Control-Allow-Headers: *
+✔ Updated Lambda Function URL settings
+
+After this, login worked from frontend → AWS without backend involvement.
+
+6️⃣ Debugging API Routing Issues
+
+Frontend was calling:
+
+/ai/suggest-title
+
+
+Backend route was:
+
+/api/ai/suggest-title
+
+
+Causing 404 Route Not Found.
+
+Solution:
+
+✔ Added axiosInstance with baseURL
+✔ Ensured consistent API prefix
+
+This fixed all AI request failures.
+
+7️⃣ Ensuring Data Consistency with Activity Logs
+
+Activity Logs needed to record:
+
+old → new status
+
+old → new field values
+
+timestamps
+
+Created a unified logging service that handled:
+
+Create
+
+Update
+
+Status change
+
+Delete
+
+This ensured full traceability of user actions.
+
+8️⃣ Deployment Problem Solving
+Backend (Render)
+
+Issues:
+
+Build failing
+
+CORS mismatch between Render & Vercel
+
+Solutions:
+
+✔ Updated CORS to allow deployed frontend URL
+✔ Ensured /api prefix works in production
+✔ Used environment variables correctly
+
+Frontend (Vercel)
+
+Problems:
+
+Refresh returned 404
+
+Proxy requests not hitting backend
+
+Solutions:
+
+✔ Set correct VITE_API_URL for production
+✔ Enabled SPA fallback on Vercel
+✔ Verified routes in build logs
+
+9️⃣ Testing Strategy
+
+I tested the system using:
+
+Postman (backend & Lambda endpoints)
+
+Browser console logs
+
+Edge cases (invalid status updates, missing fields, AI empty response)
+
+This ensured every module worked independently before integration.
+
 # 🧰 **Tech Stack**
 
 ### **Frontend**

@@ -1,4 +1,4 @@
-"use client"
+
 
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -28,43 +28,43 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-slate-900 to-slate-800">
       <div className="w-full max-w-md">
-        <div className="bg-slate-800 rounded-lg shadow-2xl p-8 border border-slate-700">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400 mb-2">
+        <div className="p-8 border rounded-lg shadow-2xl bg-slate-800 border-slate-700">
+          <div className="mb-8 text-center">
+            <h1 className="mb-2 text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
               Task Manager
             </h1>
-            <p className="text-slate-400 text-sm">Organize your tasks efficiently</p>
+            <p className="text-sm text-slate-400">Organize your tasks efficiently</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">Email</label>
+              <label className="block mb-2 text-sm font-medium text-slate-300">Email</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-400 transition"
+                className="w-full px-4 py-2 transition border rounded-lg bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-400"
                 placeholder="user@example.com"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-300 mb-2">Password</label>
+              <label className="block mb-2 text-sm font-medium text-slate-300">Password</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-400 transition"
+                className="w-full px-4 py-2 transition border rounded-lg bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-blue-400"
                 placeholder="••••••••"
               />
             </div>
 
             {error && (
-              <div className="bg-red-900/50 border border-red-700 text-red-200 px-4 py-3 rounded-lg text-sm">
+              <div className="px-4 py-3 text-sm text-red-200 border border-red-700 rounded-lg bg-red-900/50">
                 {error}
               </div>
             )}
@@ -72,15 +72,15 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:opacity-50 text-white font-semibold py-2 rounded-lg transition"
+              className="w-full py-2 font-semibold text-white transition rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 disabled:opacity-50"
             >
               {loading ? "Logging in..." : "Login"}
             </button>
           </form>
 
-          <div className="mt-6 pt-6 border-t border-slate-700">
-            <p className="text-slate-400 text-xs text-center mb-3">Demo Credentials</p>
-            <div className="space-y-2 text-slate-400 text-xs">
+          <div className="pt-6 mt-6 border-t border-slate-700">
+            <p className="mb-3 text-xs text-center text-slate-400">Demo Credentials</p>
+            <div className="space-y-2 text-xs text-slate-400">
               <p>user@example.com / password123</p>
               <p>demo@taskmanager.com / demo123</p>
             </div>

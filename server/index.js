@@ -13,7 +13,7 @@ const app = express();
 // ✅ FIXED CORS — ALLOW FRONTEND (5173)
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://task-management-tawny-eight.vercel.app"],
+    origin: ["http://localhost:5173", "https://task-management-tawny-eight.vercel.app/", "https://task-management-cer3.onrender.com"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })

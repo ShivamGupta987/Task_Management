@@ -1,4 +1,3 @@
-"use client"
 
 import { useState } from "react"
 
@@ -25,10 +24,10 @@ export default function FilterBar({ onFiltersChange }) {
   }
 
   return (
-    <div className="bg-slate-800/50 backdrop-blur border border-slate-700 rounded-lg p-4">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+    <div className="p-4 border rounded-lg bg-slate-800/50 backdrop-blur border-slate-700">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <div>
-          <label className="block text-xs font-semibold text-slate-400 mb-2">Status</label>
+          <label className="block mb-2 text-xs font-semibold text-slate-400">Status</label>
           <div className="space-y-2">
             {["Pending", "In Progress", "Completed"].map((status) => (
               <button
@@ -45,7 +44,7 @@ export default function FilterBar({ onFiltersChange }) {
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-slate-400 mb-2">Priority</label>
+          <label className="block mb-2 text-xs font-semibold text-slate-400">Priority</label>
           <div className="space-y-2">
             {["Low", "Medium", "High"].map((priority) => (
               <button
@@ -63,14 +62,14 @@ export default function FilterBar({ onFiltersChange }) {
           </div>
         </div>
 
-        <div className="col-span-2 flex items-end">
+        <div className="flex items-end col-span-2">
           <button
             onClick={() => {
               setStatusFilter("")
               setPriorityFilter("")
               onFiltersChange({})
             }}
-            className="w-full px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-100 rounded text-sm transition font-medium"
+            className="w-full px-4 py-2 text-sm font-medium transition rounded bg-slate-700 hover:bg-slate-600 text-slate-100"
           >
             Clear Filters
           </button>
