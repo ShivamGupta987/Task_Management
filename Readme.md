@@ -1,118 +1,122 @@
-Task Manager — Full-Stack Assignment (React + Node + MongoDB + AWS Lambda + Gemini AI)
 
-A complete full-stack Task Manager application built using React, Node.js, Express, MongoDB, AWS Lambda microservice for login, and Google Gemini for AI-powered task title suggestions.
+# 🚀 **Task Manager — Full-Stack Assignment (React + Node + MongoDB + AWS Lambda + Gemini AI)**
 
-This project demonstrates microservice architecture, clean folder structure, AI integration, backend workflow logic, and full CRUD operations.
+A complete full-stack **Task Manager application** built with **React, Node.js, Express, MongoDB**, an **AWS Lambda microservice for login**, and **Google Gemini (2.5 Flash)** for AI-powered task title suggestions.
 
-📌 Features
-✅ 1. Create Task
+This project demonstrates **microservice architecture**, **clean folder structure**, **AI integration**, **backend workflow logic**, and **complete CRUD operations**.
 
-Task includes:
+---
 
-Title
+# 📌 **Features**
 
-Description
+### ✅ **1. Create Task**
 
-Category
+Each task includes:
 
-Priority (Low / Medium / High)
+* Title
+* Description
+* Category
+* Priority (Low / Medium / High)
+* Due Date
+* Status *(default: Pending)*
 
-Due Date
+---
 
-Status (default: Pending)
+### ✅ **2. List Tasks**
 
-✅ 2. List Tasks
+* View all tasks
+* Filter by **Status** & **Priority**
+* Beautiful **colored badges** for categories & priorities
 
-Shows all tasks
+---
 
-Filter by Status & Priority
+### ✅ **3. Update Task**
 
-Displays colored badges
+* Edit any field
+* Status follows a strict workflow:
 
-✅ 3. Update Task
-
-Edit all fields
-
-Enforced status workflow:
+```
 Pending → In Progress → Completed
+```
 
-Prevents invalid transitions
+* Invalid transitions are prevented (e.g., Completed → In Progress)
 
-✅ 4. Delete Task
+---
 
-Confirmation modal
+### ✅ **4. Delete Task**
 
-Removes task from DB
+* Includes confirmation modal
+* Deletes task and logs the action
 
-✅ 5. Activity Log (Bonus Feature)
+---
 
-Tracks everything that happens to a task:
+### ⭐ **5. Activity Log (Bonus Feature Completed)**
 
-Action	Logged?
-Task Created	✔
-Task Updated	✔
-Status Changed	✔
-Task Deleted	✔
+Tracks **every important change** to a task:
+
+| Event          | Logged? |
+| -------------- | ------- |
+| Task Created   | ✔       |
+| Task Updated   | ✔       |
+| Status Changed | ✔       |
+| Task Deleted   | ✔       |
 
 Each log stores:
 
-timestamp
+* Timestamp
+* Action type
+* Old Value → New Value
 
-action
+---
 
-old → new values
+### 🤖 **6. AI Task Title Suggestions (Gemini 2.5 Flash)**
 
-✅ 6. AI Task Title Suggestions (Gemini 2.5 Flash)
+User enters a description → Gemini generates **3 short, professional task titles**.
 
-User enters a task description →
-AI suggests 3 short, professional task titles.
+Uses latest **Google Generative AI SDK** with model `"gemini-2.5-flash"`.
 
-✅ 7. AWS Lambda Login Microservice
+---
 
-Authentication handled by:
+### 🔐 **7. AWS Lambda Login Microservice (Mandatory Requirement Completed)**
 
-AWS Lambda
+Authentication handled independently via:
 
-Function URL
+* AWS Lambda Function URL
+* No IAM auth (public CORS-enabled API)
+* Returns token & user data
 
-CORS-enabled
+Frontend interacts **directly** with the Lambda microservice.
 
-Returns JWT + user data
+---
 
-Frontend calls Lambda directly — no backend involvement.
+# 🧰 **Tech Stack**
 
-🧰 Tech Stack
-Frontend
+### **Frontend**
 
-React (Vite)
+* React (Vite)
+* Tailwind CSS
+* Axios
+* React Router
 
-Tailwind CSS
+### **Backend**
 
-Axios
+* Node.js
+* Express
+* MongoDB + Mongoose
+* Google Gemini AI SDK
+* JWT
 
-React Router
+### **Cloud**
 
-Backend
+* AWS Lambda (login microservice)
+* AWS Function URL
+* Postman (testing)
 
-Node.js
+---
 
-Express
+# 📁 **Folder Structure (Requirement Met)**
 
-MongoDB + Mongoose
-
-Gemini AI SDK
-
-JWT
-
-Cloud
-
-AWS Lambda (Login microservice)
-
-AWS API Gateway (Function URL)
-
-Postman (Testing)
-
-📁 Folder Structure (Mandatory Requirements Met)
+```
 client/
   src/
     components/
@@ -125,194 +129,204 @@ server/
   models/
   routes/
   config/
+```
 
-⚙️ Setup Instructions
-1. Clone repository
+---
+
+# ⚙️ **Setup Instructions**
+
+## 1️⃣ Clone Repository
+
+```sh
 git clone https://github.com/your-repo/task-manager.git
 cd task-manager
+```
 
-🖥 Backend Setup
-Install dependencies:
+---
+
+# 🖥 Backend Setup
+
+### Install dependencies:
+
+```sh
 cd server
 npm install
+```
 
-Create .env
+### Create `.env` file:
+
+```
 MONGO_URI=your_mongodb_url
 PORT=5000
 GEMINI_API_KEY=your_gemini_key
+```
 
-Run server:
+### Start server:
+
+```sh
 npm run dev
+```
 
-🌐 Frontend Setup
-Install dependencies:
+---
+
+# 🌐 Frontend Setup
+
+### Install dependencies:
+
+```sh
 cd client
 npm install
+```
 
-Create .env
+### Create `.env`:
+
+```
 VITE_API_URL=http://localhost:5000/api
 VITE_AWS_LAMBDA_LOGIN_URL=https://your-lambda-url.on.aws/
+```
 
-Run:
+### Start frontend:
+
+```sh
 npm run dev
+```
 
-🔑 AWS Lambda Login Setup
-1. Create Lambda → "task-login-service"
+---
 
-Choose runtime: Node.js 20.x
+# 🔑 **AWS Lambda Login Setup**
 
-2. Add this code:
+### Step 1 — Create Lambda function
+
+Runtime: **Node.js 20.x**
+
+### Step 2 — Add login code
 
 ✔ Includes CORS
-✔ Hardcoded demo login (assignment requirement)
-✔ JWT support
+✔ Returns mock JWT
+✔ Handles OPTIONS preflight
 
-(Your Lambda code already implemented.)
+### Step 3 — Enable Function URL
 
-3. Enable Function URL
+* Auth: **NONE**
+* CORS Allowed:
 
-Auth: NONE
+  * Origins: `*`
+  * Methods: `POST, OPTIONS`
+  * Headers: `*`
 
-CORS:
+### Step 4 — Test via Postman
 
-Allow Origins: *
-
-Allow Methods: POST, OPTIONS
-
-Allow Headers: *
-
-4. Test in Postman
-
-Works:
-
-POST https://your-lambda.on.aws/
+```
+POST https://your-lambda-url.on.aws/
 {
   "email": "admin@test.com",
   "password": "123456"
 }
+```
 
-🤖 AI Integration (Gemini 2.5 Flash)
+---
 
-Uses the latest Google Generative AI SDK:
+# 🤖 **AI Integration (Gemini 2.5 Flash)**
 
+Uses latest SDK:
+
+```js
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
 const result = await model.generateContent(prompt);
+```
 
+AI returns **3 task title suggestions**.
 
-Prompts generate 3 smart task titles.
+---
 
-🧩 Challenges Faced & Solutions
-1️⃣ Gemini API Failure (Old API Deprecated)
+# 🧩 **Challenges Faced & Solutions**
 
-Old v1beta gemini-pro endpoint returned empty results
+## **1️⃣ Gemini API Failure (Old API Deprecated)**
 
-Solved by upgrading to Gemini 2.5 Flash SDK
+❌ Old gemini-pro endpoint returned empty output
+✔ Switched to **`gemini-2.5-flash` SDK**
+✔ Handled new result format
 
-Fixed JSON parsing + stable responses
+---
 
-2️⃣ AWS Lambda CORS Blocking
+## **2️⃣ AWS CORS Blocked Requests**
 
 Error:
 
+```
 Access to fetch has been blocked by CORS policy
+```
 
+Solutions:
 
-Solution:
+* Added `OPTIONS` handler
+* Allowed `POST, OPTIONS`
+* Enabled `Access-Control-Allow-Origin: *`
 
-Implemented OPTIONS handler
+---
 
-Allowed POST, OPTIONS
-
-Allowed all headers
-
-Updated Lambda Function URL settings
-
-Login began working across frontend → Lambda.
-
-3️⃣ Status Update Workflow Breaking
+## **3️⃣ Invalid Status Update Errors**
 
 Error:
 
+```
 Cannot change status from Completed to In Progress
+```
 
-
-Reason: PUT request included old status unintentionally.
+Reason: PUT sent wrong status
 Solution:
 
-Added controlled workflow:
+* Enforced **strict workflow**
+* Added validation before updating
 
-Pending → In Progress
-In Progress → Completed
+---
+
+## **4️⃣ AI Endpoint Returning 404**
+
+Issue: Frontend hitting `/ai/suggest-title` instead of `/api/ai/suggest-title`
+Fix:
+
+* Updated axios base URL
+* Created `axiosInstance`
+
+---
+
+## **5️⃣ Activity Log Inconsistencies**
+
+Some logs stored null values
+Fix:
+
+* Standardized `oldValue/newValue`
+* Separate handling for status updates vs field updates
+
+---
+
+# ⏱ **Time Log**
+
+| Task                               | Time          |
+| ---------------------------------- | ------------- |
+| Frontend UI                        | 2 hrs         |
+| Backend CRUD                       | 2 hrs         |
+| AI Integration                     | 1.5 hrs       |
+| AWS Lambda Login                   | 1.5 hrs       |
+| Activity Logs                      | 1 hr          |
+| Bug Fixing (CORS, Gemini, Routing) | 1 hr          |
+| UI Polish                          | 30 mins       |
+| **Total Time**                     | **9.5 hours** |
+
+---
+
+# 🚀 **Future Improvements**
+
+* Role-based Authentication
+* Register System with DynamoDB
+* Email Reminders for Due Dates
+* Drag & Drop Kanban Board
+* Real-time updates using WebSockets
 
 
-Now prevents invalid transitions gracefully.
 
-4️⃣ Route Not Found for AI Endpoint
-
-Issue: Frontend hitting /ai/suggest-title but backend was /api/ai/suggest-title.
-
-Solution:
-
-Fixed Axios base URL
-
-Created reusable axiosInstance
-
-5️⃣ Activity Log Schema Inconsistency
-
-Some logs saved null values.
-
-Solution:
-
-Standardized logs depending on action type
-
-Cleaning oldValue/newValue structure
-
-⏱ Time Log
-Task	Time
-Frontend UI	2 hrs
-Backend CRUD	2 hrs
-AI Integration	1.5 hrs
-AWS Lambda Login	1.5 hrs
-Activity Logs	1 hr
-Bug Fixing (CORS, Gemini, Routing)	1 hr
-Final UI Polish	30 mins
-Total Time Spent	9.5 hours
-🚀 Future Improvements
-
-Role-based auth (Admin/User)
-
-Register system with DynamoDB
-
-Task reminders via email
-
-Drag & Drop task board
-
-Deployment on Vercel + Render
-
-Real-time updates (WebSockets)
-
-🎥 Demo Video (5-min Loom)
-
-📌 Upload on Loom and paste link here:
-
-https://loom.com/your-video-link
-
-⭐ Conclusion
-
-This project demonstrates:
-
-Full-stack CRUD
-
-Microservices (AWS Lambda Auth)
-
-AI Integration (Gemini)
-
-MongoDB with Activity Logging
-
-Clean architecture
-
-Production-level error handling
